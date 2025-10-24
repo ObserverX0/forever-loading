@@ -1,20 +1,30 @@
-// === Retro 90s Forever Loading Script ===
+const loadingText = document.getElementById("loading-text");
 
-// Counter setup
 let percent = 0;
-const loadingText = document.getElementById('loading-text');
+let interval = 3000; // start at 3 seconds per increment
+let slowdownRate = 0.02; // how quickly it slows as numbers rise
+let maxInterval = 15000; // cap it so it doesn't freeze forever
 
-// Update function (every 3 seconds)
 function updateLoading() {
-  if (percent < 100) {
-    percent++;
-    loadingText.textContent = `Loading... ${percent}%`;
-  } else {
-    // When it reaches 100%, loop back to 0
-    percent = 0;
-    loadingText.textContent = `Loading... ${percent}%`;
+  percent++;
+
+  // Update display
+  loadingText.textContent = `Loading... ${percent}%`;
+
+  // Dynamic slowdown: gradually increase interval over time
+  if (percent % 100 === 0 && interval < maxInterval) {
+    // every 100%, make it slower
+    interval += interval * slowdownRate;
+    clearInterval(timer);
+    timer = setInterval(updateLoading, interval);
+  }
+
+  // Add a subtle flicker effect for the 90s vibe
+  if (Math.random() < 0.05) {
+    loadingText.style.opacity = Math.random() * 0.8 + 0.2;
+    setTimeout(() => (loadingText.style.opacity = 1), 200);
   }
 }
 
-// Call every 3 seconds
-setInterval(updateLoading, 3000);
+// Begin the eternal loop
+let timer = setInterval(updateLoading, interval);
