@@ -1,30 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Loading... Forever</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="screen-glow"></div>
+    <main class="viewport" role="main" aria-label="Forever loading">
+        <div class="loader">
+            <div class="circle" aria-hidden="true">
+                <div class="progress"></div>
+            </div>
 
-    <main class="container">
-        <div class="spinner"></div>
-
-        <div class="text-area">
-            <h1 id="loading-text" class="loading-text">Loading... 0%</h1>
-            <p class="subtext">Please wait.</p>
+            <div class="text">
+                <div id="percent" class="percent">Loading... 0%</div>
+                <div id="status" class="status">Please wait.</div>
+            </div>
         </div>
+        <div class="credit">©1998 Forever Systems Inc. — All rights reserved.</div>
     </main>
-
-    <footer>
-        <p class="footer-text">©1998 Forever Systems Inc. — All rights reserved.</p>
-    </footer>
 
     <script src="app.js"></script>
 </body>

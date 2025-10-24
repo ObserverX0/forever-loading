@@ -1,101 +1,160 @@
-/* === 1998 Retro "Forever Loading" Style === */
+:root {
+  --bg: #f3f3f3;
+  --fg: #0b0b0b;
+  --accent: #1377d8;
+  --spin-duration: 6s;
+  /* changed by JS */
+}
+
+/* page */
+* {
+  box-sizing: border-box
+}
+
+html,
 body {
-  background-color: #f4f4f4;
-  font-family: 'Press Start 2P', monospace;
-  color: #000;
-  text-align: center;
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-/* CRT Glow */
-.screen-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.6));
-  mix-blend-mode: lighten;
-  z-index: 1;
+  margin: 0
 }
 
-.container {
+body {
+  background: radial-gradient(circle at center, #fafafa 0%, #eee 45%, #dfdfdf 100%);
+  font-family: "Press Start 2P", "Courier New", monospace;
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* center layout */
+.viewport {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px;
+}
+
+/* loader block */
+.loader {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100%;
-  z-index: 2;
-  position: relative;
+  gap: 18px;
+  z-index: 2
 }
 
-/* Spinner */
-.spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid #ddd;
-  border-top-color: #0078d7;
+/* circle / spinner */
+.circle {
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  animation: spin 6s linear infinite;
-  margin-bottom: 40px;
+  border: 8px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.6) inset;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+.progress {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 8px solid transparent;
+  border-top-color: var(--accent);
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+  /* spin animation uses CSS variable for duration set by JS */
+  animation: spin var(--spin-duration) linear infinite;
+  will-change: transform;
+}
 
-  100% {
+/* quick step-like appearance (nineties feel) by using steps on a pseudo element */
+.progress:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02);
+}
+
+/* text */
+.text {
+  text-align: center
+}
+
+.percent {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--fg);
+  margin-top: 6px;
+}
+
+.status {
+  font-size: 10px;
+  color: #444;
+  margin-top: 6px;
+}
+
+/* credit (small footer) */
+.credit {
+  margin-top: 28px;
+  font-size: 9px;
+  color: #666;
+  opacity: 0.95;
+}
+
+/* CRT flicker overlay (subtle) */
+.viewport::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.02));
+  mix-blend-mode: overlay;
+  animation: subtleFlicker 5s infinite;
+}
+
+/* animations */
+@keyframes spin {
+  to {
     transform: rotate(360deg);
   }
 }
 
-/* Text */
-.loading-text {
-  font-size: 1rem;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.subtext {
-  font-size: 0.8rem;
-  color: #444;
-  margin-bottom: 20px;
-}
-
-.footer-text {
-  font-size: 0.6rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Subtle flicker for nostalgia */
-@keyframes flicker {
+/* small random flicker to text for 90s vibe */
+@keyframes textFlicker {
 
   0%,
-  18%,
-  22%,
-  25%,
-  53%,
-  57%,
   100% {
     opacity: 1;
+    filter: none;
   }
 
-  20%,
-  24%,
-  55% {
-    opacity: 0.6;
+  50% {
+    opacity: 0.85;
+    filter: blur(.0px);
   }
 }
 
-.loading-text,
-.subtext,
-.footer-text {
-  animation: flicker 2s infinite;
+/* responsive downsizing */
+@media (max-width:520px) {
+  .circle {
+    width: 52px;
+    height: 52px;
+  }
+
+  .progress {
+    border-width: 6px;
+  }
+
+  .percent {
+    font-size: 13px
+  }
 }
