@@ -1,86 +1,142 @@
-/* 90s raw style: off-white, centered, pixel-y spinner, Verdana-ish text */
-:root{
-  --bg: #f3f3f3;    /* old page background */
-  --text: #222;     /* dark gray text */
-  --muted: #666;
-  --size: 90px;     /* spinner diameter */
+/* --- Background --- */
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at center, #f3f3f3 0%, #e1e1e1 40%, #c0c0c0 100%);
+  font-family: "Press Start 2P", "Courier New", monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #202020;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
 }
 
-/* reset minimal */
-html,body{height:100%;margin:0;background:var(--bg);font-family:Verdana, Geneva, Tahoma, sans-serif;cursor:default}
-.center{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
+/* --- Subtle screen glow overlay --- */
+.screen-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.15));
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay;
+  animation: flicker 5s infinite ease-in-out alternate;
 }
 
-/* spinner (12 dot retro) */
-.spinner{
-  width:var(--size);
-  height:var(--size);
-  position:relative;
-  box-sizing:border-box;
-  /* to make it look old-school, no smoothing tricks */
+/* --- Spinner --- */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(100, 100, 100, 0.3);
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 8s linear infinite;
+  margin-bottom: 40px;
+  z-index: 2;
 }
 
-/* common dot style */
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:2px; /* slightly blocky */
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform-origin: -36px 0; /* will position radial */
-  opacity:0.22;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-/* place 12 dots around a circle using rotation - will appear frame-by-frame via animation */
-@keyframes spin-frames {
-  to { transform: rotate(360deg); }
+/* --- Text area --- */
+.text-area {
+  text-align: center;
+  z-index: 2;
 }
 
-/* step animation - steps(12) -> frame-like stepping */
-.spinner{
-  animation: spin-frames 1.2s steps(12) infinite;
+.loading-text {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #222;
+  text-shadow: 0px 0px 2px #666;
+  animation: flickerText 6s infinite ease-in-out alternate;
 }
 
-/* color cycle for 90s flare (primary-ish) */
-.d1  { background:#0072FF; transform: rotate(0deg) translateX(-36px) translateY(-5px); }
-.d2  { background:#FF3B30; transform: rotate(30deg) translateX(-36px) translateY(-5px); }
-.d3  { background:#FFCC00; transform: rotate(60deg) translateX(-36px) translateY(-5px); }
-.d4  { background:#34C759; transform: rotate(90deg) translateX(-36px) translateY(-5px); }
-.d5  { background:#0072FF; transform: rotate(120deg) translateX(-36px) translateY(-5px); }
-.d6  { background:#FF3B30; transform: rotate(150deg) translateX(-36px) translateY(-5px); }
-.d7  { background:#FFCC00; transform: rotate(180deg) translateX(-36px) translateY(-5px); }
-.d8  { background:#34C759; transform: rotate(210deg) translateX(-36px) translateY(-5px); }
-.d9  { background:#0072FF; transform: rotate(240deg) translateX(-36px) translateY(-5px); }
-.d10 { background:#FF3B30; transform: rotate(270deg) translateX(-36px) translateY(-5px); }
-.d11 { background:#FFCC00; transform: rotate(300deg) translateX(-36px) translateY(-5px); }
-.d12 { background:#34C759; transform: rotate(330deg) translateX(-36px) translateY(-5px); }
-
-/* old-school text styling */
-.text { text-align:center; }
-.loading {
-  font-size:16px;
-  color:var(--text);
-  letter-spacing:0.5px;
-  font-weight:400;
-  font-family: "Courier New", Courier, monospace; /* slightly retro */
-}
-.hint {
-  margin-top:6px;
-  color:var(--muted);
-  font-size:12px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.subtext {
+  font-size: 0.7rem;
+  color: #555;
+  margin-top: 10px;
+  animation: blink 2s infinite steps(1);
 }
 
-/* small screens adjust size */
-@media (max-width:420px){
-  :root{ --size:64px; }
-  .dot{ width:8px; height:8px; }
-  .loading{ font-size:14px; }
+/* --- Footer --- */
+footer {
+  padding-bottom: 15px;
+  z-index: 2;
+}
+
+.footer-text {
+  font-size: 0.5rem;
+  color: #666;
+  text-align: center;
+}
+
+/* --- Animations --- */
+@keyframes blink {
+
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes flickerText {
+  0% {
+    opacity: 1;
+    text-shadow: 0 0 3px #000;
+  }
+
+  50% {
+    opacity: 0.85;
+    text-shadow: 0 0 6px #333;
+  }
+
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 3px #000;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.97;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+  .spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loading-text {
+    font-size: 0.8rem;
+  }
 }

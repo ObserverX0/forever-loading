@@ -1,36 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Loading… Forever</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading... Forever</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <main class="center" role="main" aria-label="Eternal loading">
-        <div class="spinner" aria-hidden="true">
-            <!-- 12 dots for retro frame-by-frame feel -->
-            <div class="dot d1"></div>
-            <div class="dot d2"></div>
-            <div class="dot d3"></div>
-            <div class="dot d4"></div>
-            <div class="dot d5"></div>
-            <div class="dot d6"></div>
-            <div class="dot d7"></div>
-            <div class="dot d8"></div>
-            <div class="dot d9"></div>
-            <div class="dot d10"></div>
-            <div class="dot d11"></div>
-            <div class="dot d12"></div>
-        </div>
+    <div class="screen-glow"></div>
 
-        <div class="text">
-            <div class="loading" id="loadingText">Loading... 0%</div>
-            <div class="hint">Please wait.</div>
+    <main class="container">
+        <div class="spinner"></div>
+
+        <div class="text-area">
+            <h1 id="loading-text" class="loading-text">Loading... 0%</h1>
+            <p class="subtext">Please wait.</p>
         </div>
     </main>
+
+    <footer>
+        <p class="footer-text">©1998 Forever Systems Inc. — All rights reserved.</p>
+    </footer>
 
     <script src="app.js"></script>
 </body>

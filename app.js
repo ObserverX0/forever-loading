@@ -1,38 +1,22 @@
-// Raw forever-loading logic
-// increments by 1 every 500ms and continues past 100% forever.
+let progress = 0;
+const loadingText = document.getElementById("loading-text");
 
-(function(){
-  const el = document.getElementById('loadingText');
-
-  // start value (0)
-  let value = 0;
-
-  // human-readable thousand separators
-  function format(n){
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function updateLoading() {
+  if (progress < 99) {
+    progress++;
+  } else {
+    progress = 80; // loop back to 80% to feel infinite
   }
 
-  // render
-  function render(){
-    el.textContent = `Loading... ${format(value)}%`;
-  }
-  render();
+  loadingText.textContent = `Loading... ${progress}%`;
 
-  // increment interval (0.5s per percent)
-  const STEP_MS = 500; // change to 200 for fast testing
+  // random flicker sound simulation in console
+  if (Math.random() < 0.2) console.log("💾 Disk read...");
 
-  setInterval(() => {
-    value++;
-    render();
-  }, STEP_MS);
+  setTimeout(updateLoading, 3000); // +1% every 3 seconds
+}
 
-  // occasional micro-stutter to make it imperfect (raw feel)
-  // every ~45-90 seconds, freeze spinner briefly by toggling animation-play-state
-  setInterval(() => {
-    const spinner = document.querySelector('.spinner');
-    if(!spinner) return;
-    spinner.style.animationPlayState = 'paused';
-    // short pause 150ms - feels like ancient lag
-    setTimeout(() => spinner.style.animationPlayState = 'running', 150);
-  }, 60000 + Math.floor(Math.random()*30000)); // between 60s and 90s
-})();
+window.onload = () => {
+  console.log("🧠 Forever Loading System v1.0.0 (1998 Edition)");
+  updateLoading();
+};
