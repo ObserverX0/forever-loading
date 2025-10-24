@@ -1,22 +1,20 @@
-let progress = 0;
-const loadingText = document.getElementById("loading-text");
+// === Retro 90s Forever Loading Script ===
 
+// Counter setup
+let percent = 0;
+const loadingText = document.getElementById('loading-text');
+
+// Update function (every 3 seconds)
 function updateLoading() {
-  if (progress < 99) {
-    progress++;
+  if (percent < 100) {
+    percent++;
+    loadingText.textContent = `Loading... ${percent}%`;
   } else {
-    progress = 80; // loop back to 80% to feel infinite
+    // When it reaches 100%, loop back to 0
+    percent = 0;
+    loadingText.textContent = `Loading... ${percent}%`;
   }
-
-  loadingText.textContent = `Loading... ${progress}%`;
-
-  // random flicker sound simulation in console
-  if (Math.random() < 0.2) console.log("💾 Disk read...");
-
-  setTimeout(updateLoading, 3000); // +1% every 3 seconds
 }
 
-window.onload = () => {
-  console.log("🧠 Forever Loading System v1.0.0 (1998 Edition)");
-  updateLoading();
-};
+// Call every 3 seconds
+setInterval(updateLoading, 3000);
